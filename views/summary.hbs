@@ -5,26 +5,27 @@
 				<legend>
 					<h3>Cart</h3>
 				</legend>
-				<form class="form-inline">
-					<div class="dropdown">
-						<div class="btn dropdown-toggle" data-toggle="dropdown">
-							<span>Cart value:</span>
-							<span>{{cartValue}}</span>
-							<span class="caret"></span>
+				<form class="form-inline clearfix">
+						<div class="dropdown dropup form-control pull-left">
+							<div class="btn dropdown-toggle" data-toggle="dropdown">
+								<span>Cart value:</span>
+								<span>{{cartValue}}</span>
+								<span class="caret"></span>
+							</div>
+							<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+								{{#cartItems}}
+								<li>
+									<span>{{Name}}</span>,
+									<span>{{Amount}}</span>,
+									<span>{{Price}}</span>
+								</li>
+								<li role="separator" class="divider"></li>
+								{{/cartItems}}
+							</ul>
 						</div>
-						<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-							{{#cartItems}}
-							<li>
-								<span>{{Name}}</span>,
-								<span>{{Amount}}</span>,
-								<span>{{Price}}</span>
-							</li>
-							{{/cartItems}}
-						</ul>
-					</div>
-					<a href="/checkout" style="display:inline-block">
-						<span class="btn btn-info"><i class="icon-shopping-cart icon-white"></i> Checkout</span>
-					</a>
+						<a href="/checkout" class="btn btn-info form-control pull-right">
+							<i class="icon-shopping-cart icon-white"></i> Checkout
+						</a>
 				</form>
 			</fieldset>
 		</div>

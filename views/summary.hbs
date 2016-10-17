@@ -1,0 +1,32 @@
+<section class="container">
+	<div class="row-fluid paddingb45">
+		<div class="cart span5">
+			<fieldset>
+				<legend>
+					<h3>Cart</h3>
+				</legend>
+				<form class="form-inline">
+					<div class="dropdown">
+						<div class="btn dropdown-toggle" data-toggle="dropdown">
+							<span>Cart value:</span>
+							<span>{{cartValue}}</span>
+							<span class="caret"></span>
+						</div>
+						<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+							{{#cartItems}}
+							<li>
+								<span>{{Name}}</span>,
+								<span>{{Amount}}</span>,
+								<span>{{Price}}</span>
+							</li>
+							{{/cartItems}}
+						</ul>
+					</div>
+					<a href="/checkout" style="display:inline-block">
+						<span class="btn btn-info"><i class="icon-shopping-cart icon-white"></i> Checkout</span>
+					</a>
+				</form>
+			</fieldset>
+		</div>
+	</div>
+</section>

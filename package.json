@@ -3,8 +3,9 @@
   "typings": "lib/app",
   "scripts": {
     "start": "node bin/www",
-    "ts": "node_modules/.bin/typings install",
-    "build": "node_modules/.bin/tsc"
+    "typings": "node_modules/.bin/typings install",
+    "build": "node_modules/.bin/tsc",
+    "build:w": "node_modules/.bin/tsc -w"
   },
   "main": "bin/www",
   "version": "0.0.0",

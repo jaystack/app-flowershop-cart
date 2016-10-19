@@ -65,7 +65,7 @@ router.get('/add/:id', (req, res, next) => {
 
 function getFlowersById(ids: Array<string>, clb: Function) {
   let p = ids.map(flowerId => new Promise((resolv, reject) => {
-    request.get({ url: config.get<string>("dataApi") + `/data/flower(${flowerId})` },
+    request.get({ url: config.get<string>("dataApi") + `/data/flower(${flowerId})`, timeout: 4000  },
       (err, catRes, flower) => {
         if (err) reject(err)
         resolv(JSON.parse(flower))

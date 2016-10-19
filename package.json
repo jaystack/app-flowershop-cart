@@ -5,7 +5,9 @@
     "start": "node bin/www",
     "typings": "node_modules/.bin/typings install",
     "build": "node_modules/.bin/tsc",
-    "build:w": "node_modules/.bin/tsc -w"
+    "build:w": "node_modules/.bin/tsc -w",
+    "test": "node_modules/.bin/mocha ./lib/test/*.js",
+    "test_jenkins": "node_modules/.bin/mocha --reporter mocha-junit-reporter ./lib/test/*.js"
   },
   "main": "bin/www",
   "version": "0.0.0",
@@ -32,6 +34,7 @@
   },
   "devDependencies": {
     "assert": "^1.3.0",
+    "mocha-junit-reporter": "^1.12.1",
     "mongoose": "^4.3.6",
     "pow-mongodb-fixtures": "^0.13.0",
     "should": "^8.1.1",

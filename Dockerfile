@@ -5,7 +5,7 @@ WORKDIR /root/app
 ADD package.json package.json
 RUN npm install
 ADD typings.json typings.json
-RUN npm run ts
+RUN npm run typings
 
 ADD . .
 

@@ -13,7 +13,7 @@ router.use((req, res, next) => {
 
 router.get('/summary', function (req, res, next) {
   getFlowersById(req.cart.items, (err, flowers) => {
-    if (err) res.sendStatus(500)
+    if (err) return res.sendStatus(500)
     let data = {
       cartValue: (flowers.reduce((a, b) => a + b.Price, 0)).toFixed(2),
       cartItems: flowers
@@ -34,7 +34,7 @@ router.post('/checkout', function (req, res, next) {
       }
     },
     (err, orderRes, flower) => {
-      if(err) res.sendStatus(500)
+      if(err) return res.sendStatus(500)
       if(orderRes.statusCode !== 201) res.sendStatus(orderRes.statusCode)
       res.cookie('fs_cart', '').redirect('/')
     })
@@ -42,7 +42,7 @@ router.post('/checkout', function (req, res, next) {
 
 router.get('/checkout', function (req, res, next) {
   getFlowersById(req.cart.items, (err, flowers) => {
-    if (err) res.sendStatus(500)
+    if (err) return res.sendStatus(500)
     let data = {
       cartValue: (flowers.reduce((a, b) => a + b.Price, 0)).toFixed(2),
       cartItems: flowers

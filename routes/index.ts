@@ -15,7 +15,7 @@ router.get('/summary', function (req, res, next) {
   getFlowersById(req.cart.items, (err, flowers) => {
     if (err) return res.sendStatus(500)
     let data = {
-      cartValue: (flowers.reduce((a, b) => a + b.Price, 0)).toFixed(2),
+      cartValue: (flowers.reduce((a, b) => a + (b ? b.Price : 0), 0)).toFixed(2),
       cartItems: flowers
     }
     res.render('summary', data)
@@ -34,8 +34,8 @@ router.post('/checkout', function (req, res, next) {
       }
     },
     (err, orderRes, flower) => {
-      if(err) return res.sendStatus(500)
-      if(orderRes.statusCode !== 201) res.sendStatus(orderRes.statusCode)
+      if (err) return res.sendStatus(500)
+      if (orderRes.statusCode !== 201) res.sendStatus(orderRes.statusCode)
       res.cookie('fs_cart', '').redirect('/')
     })
 })
@@ -65,7 +65,7 @@ router.get('/add/:id', (req, res, next) => {
 
 function getFlowersById(ids: Array<string>, clb: Function) {
   let p = ids.map(flowerId => new Promise((resolv, reject) => {
-    request.get({ url: config.get<string>("dataApi") + `/data/flower(${flowerId})`, timeout: 4000  },
+    request.get({ url: config.get<string>("dataApi") + `/data/flower(${flowerId})`, timeout: 4000 },
       (err, catRes, flower) => {
         if (err) reject(err)
         resolv(JSON.parse(flower))

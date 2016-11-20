@@ -44,7 +44,7 @@ router.get('/checkout', function (req, res, next) {
   getFlowersById(req.cart.items, (err, flowers) => {
     if (err) return res.sendStatus(500)
     let data = {
-      cartValue: (flowers.reduce((a, b) => a + b.Price, 0)).toFixed(2),
+      cartValue: (flowers.reduce((a, b) => a + (b ? b.Price : 0), 0)).toFixed(2),
       cartItems: flowers
     }
     res.render('checkout', data)

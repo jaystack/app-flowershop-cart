@@ -3,6 +3,7 @@ var express = require('express');
 var router = express.Router();
 import * as request from 'request';
 import * as config from 'config';
+import { getServiceAddress } from 'system-endpoints'
 
 router.use((req, res, next) => {
   let cart = (<any>req).cookies['fs_cart']
@@ -26,7 +27,7 @@ router.post('/checkout', function (req, res, next) {
   console.log(req.cart.items)
   request.post(
     {
-      url: config.get<string>("dataApi") + `/data/order`,
+      url: getServiceAddress(config.get<string>("dataApi")) + `/data/order`,
       form: {
         customerName: req.body.customerName,
         customerAddress: req.body.customerAddress,
@@ -65,7 +66,7 @@ router.get('/add/:id', (req, res, next) => {
 
 function getFlowersById(ids: Array<string>, clb: Function) {
   let p = ids.map(flowerId => new Promise((resolv, reject) => {
-    request.get({ url: config.get<string>("dataApi") + `/data/flower(${flowerId})`, timeout: 4000 },
+    request.get({ url: getServiceAddress(config.get<string>("dataApi")) + `/data/flower(${flowerId})`, timeout: 4000 },
       (err, catRes, flower) => {
         if (err) reject(err)
         resolv(JSON.parse(flower))

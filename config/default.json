@@ -1,4 +1,4 @@
 {
-  "dataApi": "http://localhost:3003",
+  "dataApi": "localhost:3003",
   "systemEndpoints": "./system-endpoints.json"
 }

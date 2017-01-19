@@ -31,6 +31,7 @@ router.post('/checkout', function (req, res, next) {
       form: {
         customerName: req.body.customerName,
         customerAddress: req.body.customerAddress,
+        emailAddress: req.body.emailAddress,
         flowers: JSON.stringify(req.cart.items)
       }
     },

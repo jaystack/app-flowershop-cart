@@ -17,7 +17,8 @@ router.get('/summary', function (req, res, next) {
     if (err) return res.sendStatus(500)
     let data = {
       cartValue: (flowers.reduce((a, b) => a + (b ? b.Price : 0), 0)).toFixed(2),
-      cartItems: flowers
+      cartItems: flowers,
+      registrationUrl: `http://${getServiceAddress('localhost:3007')}/registration`
     }
     res.render('summary', data)
   })

@@ -9,7 +9,6 @@ import morganLog = require('morgan');
 export default function Router() {
   return {
     async start({app, endpoints, logger}) {
-      console.log('start')
       app.set('views', path.join(process.cwd(), './views'));
       app.set('view engine', 'hbs');
 
@@ -23,7 +22,8 @@ export default function Router() {
         let p = ids.map(flowerId => new Promise((resolv, reject) => {
           request.get({ url: `http://${endpoints.getServiceAddress('localhost:3003')}/data/flower(${flowerId})`, timeout: 4000 },
             (err, catRes, flower) => {
-              if (err) reject(err)
+              //console.log(`# flower: ${JSON.stringify(flower)}`)
+              if (err) {console.log(err); return reject(err)}
               resolv(JSON.parse(flower))
             })
         }))
@@ -43,13 +43,18 @@ export default function Router() {
       })
 
       router.get('/summary', (req, res, next) => {
+        //console.log(`req['cart'].items: ${JSON.stringify(req['cart'].items)}`)
+        if (req['cart'].items.length === 0) return res.render('summary', { cartValue: 0, cartItems:[], registrationUrl: `http://${endpoints.getServiceAddress('localhost:3007')}/registration` })
         getFlowersById(req['cart'].items, (err, flowers) => {
-          if (err) return res.sendStatus(500)
-          let data = {
-            cartValue: (flowers.reduce((a, b) => a + (b ? b.Price : 0), 0)).toFixed(2),
-            cartItems: flowers,
-            registrationUrl: `http://${endpoints.getServiceAddress('localhost:3007')}/registration`,
-          }
+          //console.log(`flowers: ${JSON.stringify(flowers)}`)
+          if (err) { console.log(err); return res.sendStatus(500) }
+          let data = (flowers.length > 0)
+            ? {
+              cartValue: (flowers.reduce((a, b) => a + (b ? b.Price : 0), 0)).toFixed(2),
+              cartItems: flowers,
+              registrationUrl: `http://${endpoints.getServiceAddress('localhost:3007')}/registration`,
+            }
+            : { cartValue: 0, cartItems:[], registrationUrl: `http://${endpoints.getServiceAddress('localhost:3007')}/registration` }
           res.render('summary', data)
         })
       })

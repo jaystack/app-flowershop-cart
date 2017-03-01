@@ -23,7 +23,7 @@ export default function Router() {
         let p = ids.map(flowerId => new Promise((resolv, reject) => {
           request.get({ url: `http://${endpoints.getServiceAddress('localhost:3003')}/data/flower(${flowerId})`, timeout: 4000 },
             (err, catRes, flower) => {
-              console.log(`# flower: ${JSON.stringify(flower)}`)
+              //console.log(`# flower: ${JSON.stringify(flower)}`)
               if (err) {console.log(err); return reject(err)}
               resolv(JSON.parse(flower))
             })
@@ -44,10 +44,10 @@ export default function Router() {
       })
 
       router.get('/summary', (req, res, next) => {
-        console.log(`req['cart'].items: ${JSON.stringify(req['cart'].items)}`)
+        //console.log(`req['cart'].items: ${JSON.stringify(req['cart'].items)}`)
         if (req['cart'].items.length === 0) return res.render('summary', { cartValue: 0, cartItems:[], registrationUrl: `http://${endpoints.getServiceAddress('localhost:3007')}/registration` })
         getFlowersById(req['cart'].items, (err, flowers) => {
-          console.log(`flowers: ${JSON.stringify(flowers)}`)
+          //console.log(`flowers: ${JSON.stringify(flowers)}`)
           if (err) { console.log(err); return res.sendStatus(500) }
           let data = (flowers.length > 0)
             ? {

@@ -11,4 +11,7 @@ module.exports = {
       () => new transports.File({ filename: 'all.log' })
     ]
   },
+  "server": {
+    "port": 3000
+  }
 }

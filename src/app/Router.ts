@@ -35,7 +35,6 @@ export default function Router() {
       const router = express.Router()
 
       router.use((req, res, next) => {
-        console.log('asdadsasd')
         let cart
         if (!!req.cookies && !!req.cookies["fs_cart"]) cart = (<any>req).cookies["fs_cart"]
         if (!cart) cart = { created: new Date(), items: [] }
@@ -44,7 +43,6 @@ export default function Router() {
       })
 
       router.get('/summary', (req, res, next) => {
-        console.log('asdadsasd')
         getFlowersById(req['cart'].items, (err, flowers) => {
           if (err) return res.sendStatus(500)
           let data = {

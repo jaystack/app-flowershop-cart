@@ -72,7 +72,7 @@ export default function Router() {
           },
           (err, orderRes, flower) => {
             if (err) return res.sendStatus(500)
-            if (orderRes.statusCode !== 201) res.sendStatus(orderRes.statusCode)
+            if (orderRes.statusCode !== 201) res.status(orderRes.statusCode)
             res.cookie('fs_cart', '').redirect('/')
           })
       })

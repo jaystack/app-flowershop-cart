@@ -4,6 +4,7 @@ import Endpoints from 'corpjs-endpoints'
 import Router from './Router'
 import System from 'corpjs-system'
 import Logger from 'corpjs-logger'
+const {name} = require('../../package.json')
 
 const inDevelopment = process.env.NODE_ENV === 'dev'
 process.on('unhandledRejection', err => console.error(err))

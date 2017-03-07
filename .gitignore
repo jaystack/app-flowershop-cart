@@ -3,6 +3,7 @@ typings
 lib
 test-results.xml
 test/*.js
+.vscode
 *.log
 system-endpoints.json
 yarn.lock

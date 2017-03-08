@@ -98,7 +98,7 @@ export default function Router() {
         })
       })
 
-      app.use('/cart/', router);
+      app.use('/cart/', router)
     }
   }
 }

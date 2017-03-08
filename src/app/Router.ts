@@ -52,9 +52,8 @@ export default function Router() {
             ? {
               cartValue: (flowers.reduce((a, b) => a + (b ? b.Price : 0), 0)).toFixed(2),
               cartItems: flowers,
-              registrationUrl: `http://${endpoints.getServiceAddress('localhost:3007')}/registration`,
             }
-            : { cartValue: 0, cartItems:[], registrationUrl: `http://${endpoints.getServiceAddress('localhost:3007')}/registration` }
+            : { cartValue: 0, cartItems:[] }
           res.render('summary', data)
         })
       })

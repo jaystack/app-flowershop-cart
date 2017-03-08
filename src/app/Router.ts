@@ -61,7 +61,7 @@ export default function Router() {
       router.post('/checkout', (req, res, next) => {
         request.post(
           {
-            url: `http://${endpoints.getServiceAddress('localhost:3007')}/data/order`,
+            url: `http://${endpoints.getServiceAddress('localhost:3003')}/data/order`,
             form: {
               customerName: req.body.customerName,
               customerAddress: req.body.customerAddress,

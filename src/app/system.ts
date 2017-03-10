@@ -4,9 +4,9 @@ import Endpoints from 'corpjs-endpoints'
 import Router from './Router'
 import System from 'corpjs-system'
 import Logger from 'corpjs-logger'
-const {name} = require('../../package.json')
+const { name } = require('../../package.json')
 
-export default new System({name})
+export default new System({ name })
     .add('config', new Config()
         .add(config => loaders.require({ path: './config/default.js', mandatory: true })))
     .add('logger', Logger()).dependsOn({ component: 'config', source: 'logger', as: 'config' })

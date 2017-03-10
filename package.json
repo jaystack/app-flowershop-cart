@@ -26,7 +26,7 @@
     "corpjs-endpoints": "0.0.13",
     "corpjs-express": "0.0.12",
     "corpjs-logger": "0.0.13",
-    "corpjs-system": "0.0.45",
+    "corpjs-system": "0.0.46",
     "debug": "2.6.1",
     "express": "4.13.1",
     "hbs": "4.0.1",

@@ -59,6 +59,7 @@ export default function Router() {
       })
 
       router.post('/checkout', (req, res, next) => {
+        console.log(`/cart/checkout POST to http://${endpoints.getServiceAddress('localhost:3003')}/data/order`)
         request.post(
           {
             url: `http://${endpoints.getServiceAddress('localhost:3003')}/data/order`,
@@ -69,7 +70,11 @@ export default function Router() {
               flowers: JSON.stringify(req['cart'].items)
             },
           },
-          (err, orderRes, flower) => {
+          (err, orderRes, order) => {
+            console.log("/cart/checkout")
+            console.log(err)
+            console.log(orderRes.statusCode)
+            console.log(order)
             if (err) return res.sendStatus(500)
             //if (orderRes.statusCode !== 201) res.sendStatus(orderRes.statusCode)
             if (orderRes.statusCode !== 201) res.status(orderRes.statusCode)

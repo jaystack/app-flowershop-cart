@@ -2,7 +2,7 @@
   "name": "app-flowershop-cart",
   "version": "0.0.0",
   "description": "",
-  "main": "server.js",
+  "main": "lib/app",
   "typings": "lib/app",
   "scripts": {
     "build": "rimraf lib/app && tsc -p src/app --outDir lib/app",
@@ -12,7 +12,7 @@
     "init": "npm run build && node lib/app/initFlowerShop.js",
     "pretest": "npm run build-tests",
     "test": "node_modules/.bin/mocha lib/test/**/*.spec.js -c",
-    "start": "node server"
+    "start": "node ."
   },
   "keywords": [],
   "license": "",
@@ -24,9 +24,9 @@
     "corpjs-amqp": "0.0.6",
     "corpjs-config": "0.0.11",
     "corpjs-endpoints": "0.0.13",
-    "corpjs-express": "0.0.9",
+    "corpjs-express": "0.0.12",
     "corpjs-logger": "0.0.13",
-    "corpjs-system": "0.0.37",
+    "corpjs-system": "0.0.46",
     "debug": "2.6.1",
     "express": "4.13.1",
     "hbs": "4.0.1",

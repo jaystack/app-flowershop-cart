@@ -73,7 +73,7 @@ export default function Router() {
           (err, orderRes, order) => {
             console.log("/cart/checkout")
             console.log(err)
-            console.log(orderRes.statusCode)
+            console.log((orderRes && orderRes.statusCode) || '0 - NO statusCode - 0')
             console.log(order)
             if (err) return res.sendStatus(500)
             //if (orderRes.statusCode !== 201) res.sendStatus(orderRes.statusCode)

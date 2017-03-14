@@ -21,7 +21,6 @@
   "dependencies": {
     "body-parser": "1.17.1",
     "cookie-parser": "1.4.3",
-    "corpjs-amqp": "0.1.8",
     "corpjs-config": "0.1.2",
     "corpjs-endpoints": "0.1.2",
     "corpjs-express": "0.1.2",
@@ -34,8 +33,7 @@
     "q": "1.4.1",
     "request": "2.80.0",
     "serve-favicon": "2.4.1",
-    "superagent": "3.5.0",
-    "underscore": "1.8.3"
+    "superagent": "3.5.0"
   },
   "devDependencies": {
     "@types/chai": "3.4.35",
@@ -49,7 +47,6 @@
     "@types/request": "0.0.33",
     "@types/serve-static": "1.7.31",
     "@types/superagent": "2.0.36",
-    "@types/underscore": "1.7.36",
     "assert": "1.4.1",
     "mocha": "3.2.0",
     "mocha-junit-reporter": "1.13.0",

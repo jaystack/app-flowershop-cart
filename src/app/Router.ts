@@ -22,8 +22,7 @@ export default function Router() {
         let p = ids.map(flowerId => new Promise((resolv, reject) => {
           request.get({ url: `http://${endpoints.getServiceAddress('localhost:3003')}/data/flower(${flowerId})`, timeout: 4000 },
             (err, catRes, flower) => {
-              //console.log(`# flower: ${JSON.stringify(flower)}`)
-              if (err) {console.log(err); return reject(err)}
+              if (err) {logger.warn(err); return reject(err)}
               resolv(JSON.parse(flower))
             })
         }))
@@ -43,10 +42,8 @@ export default function Router() {
       })
 
       router.get('/summary', (req, res, next) => {
-        //console.log(`req['cart'].items: ${JSON.stringify(req['cart'].items)}`)
         getFlowersById(req['cart'].items, (err, flowers) => {
-          //console.log(`flowers: ${JSON.stringify(flowers)}`)
-          if (err) { console.log(err); return res.sendStatus(500) }
+          if (err) { logger.warn(err); return res.sendStatus(500) }
           let data = (flowers.length > 0)
             ? {
               cartValue: (flowers.reduce((a, b) => a + (b ? b.Price : 0), 0)).toFixed(2),
@@ -58,7 +55,6 @@ export default function Router() {
       })
 
       router.post('/checkout', (req, res, next) => {
-        console.log(`/cart/checkout POST to http://${endpoints.getServiceAddress('localhost:3003')}/data/order`)
         request.post(
           {
             url: `http://${endpoints.getServiceAddress('localhost:3003')}/data/order`,
@@ -70,12 +66,7 @@ export default function Router() {
             },
           },
           (err, orderRes, order) => {
-            console.log("/cart/checkout")
-            console.log(err)
-            console.log((orderRes && orderRes.statusCode) || '0 - NO statusCode - 0')
-            console.log(order)
             if (err) return res.sendStatus(500)
-            //if (orderRes.statusCode !== 201) res.sendStatus(orderRes.statusCode)
             if (orderRes.statusCode !== 201) res.status(orderRes.statusCode)
             res.cookie('fs_cart', '').redirect('/')
           })
@@ -95,7 +86,6 @@ export default function Router() {
       })
 
       router.get('/add/:id', (req, res, next) => {
-        console.log('add cart', req['cart'])
         getFlowersById([req.params['id']], (err, flowers) => {
           if (err) return res.sendStatus(500)
           req['cart'].items.push(flowers[0]._id)

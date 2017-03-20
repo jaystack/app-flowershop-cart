@@ -1,29 +1,28 @@
 import cookieParser = require('cookie-parser')
 import { static as expressStatic } from 'express'
 import path = require('path')
-import * as request from 'request';
-import bodyParser = require('body-parser');
-import express = require('express');
-import morganLog = require('morgan');
+import * as request from 'request'
+import bodyParser = require('body-parser')
+import express = require('express')
+import morganLog = require('morgan')
 
 export default function Router() {
   return {
     async start({app, endpoints, logger}) {
-      app.set('views', path.join(process.cwd(), './views'));
-      app.set('view engine', 'hbs');
+      app.set('views', path.join(process.cwd(), './views'))
+      app.set('view engine', 'hbs')
 
-      app.use(morganLog('dev'));
-      app.use(bodyParser.json());
-      app.use(bodyParser.urlencoded({ extended: false }));
-      app.use(cookieParser());
-      app.use(express.static(path.join(process.cwd(), './public')));
+      app.use(morganLog('dev'))
+      app.use(bodyParser.json())
+      app.use(bodyParser.urlencoded({ extended: false }))
+      app.use(cookieParser())
+      app.use(express.static(path.join(process.cwd(), './public')))
 
       const getFlowersById = ((ids: Array<string>, clb: Function) => {
         let p = ids.map(flowerId => new Promise((resolv, reject) => {
           request.get({ url: `http://${endpoints.getServiceAddress('localhost:3003')}/data/flower(${flowerId})`, timeout: 4000 },
             (err, catRes, flower) => {
-              //console.log(`# flower: ${JSON.stringify(flower)}`)
-              if (err) {console.log(err); return reject(err)}
+              if (err) {logger.warn(err); return reject(err)}
               resolv(JSON.parse(flower))
             })
         }))
@@ -43,18 +42,14 @@ export default function Router() {
       })
 
       router.get('/summary', (req, res, next) => {
-        //console.log(`req['cart'].items: ${JSON.stringify(req['cart'].items)}`)
-        if (req['cart'].items.length === 0) return res.render('summary', { cartValue: 0, cartItems:[], registrationUrl: `http://${endpoints.getServiceAddress('localhost:3007')}/registration` })
         getFlowersById(req['cart'].items, (err, flowers) => {
-          //console.log(`flowers: ${JSON.stringify(flowers)}`)
-          if (err) { console.log(err); return res.sendStatus(500) }
+          if (err) { logger.warn(err); return res.sendStatus(500) }
           let data = (flowers.length > 0)
             ? {
               cartValue: (flowers.reduce((a, b) => a + (b ? b.Price : 0), 0)).toFixed(2),
               cartItems: flowers,
-              registrationUrl: `http://${endpoints.getServiceAddress('localhost:3007')}/registration`,
             }
-            : { cartValue: 0, cartItems:[], registrationUrl: `http://${endpoints.getServiceAddress('localhost:3007')}/registration` }
+            : { cartValue: 0, cartItems:[] }
           res.render('summary', data)
         })
       })
@@ -62,7 +57,7 @@ export default function Router() {
       router.post('/checkout', (req, res, next) => {
         request.post(
           {
-            url: `http://${endpoints.getServiceAddress('localhost:3007')}/data/order`,
+            url: `http://${endpoints.getServiceAddress('localhost:3003')}/data/order`,
             form: {
               customerName: req.body.customerName,
               customerAddress: req.body.customerAddress,
@@ -70,9 +65,8 @@ export default function Router() {
               flowers: JSON.stringify(req['cart'].items)
             },
           },
-          (err, orderRes, flower) => {
+          (err, orderRes, order) => {
             if (err) return res.sendStatus(500)
-            //if (orderRes.statusCode !== 201) res.sendStatus(orderRes.statusCode)
             if (orderRes.statusCode !== 201) res.status(orderRes.statusCode)
             res.cookie('fs_cart', '').redirect('/')
           })
@@ -81,16 +75,17 @@ export default function Router() {
       router.get('/checkout', (req, res, next) => {
         getFlowersById(req['cart'].items, (err, flowers) => {
           if (err) return res.sendStatus(500)
-          let data = {
-            cartValue: (flowers.reduce((a, b) => a + (b ? b.Price : 0), 0)).toFixed(2),
-            cartItems: flowers,
-          }
+          let data = (flowers.length > 0)
+            ? {
+              cartValue: (flowers.reduce((a, b) => a + (b ? b.Price : 0), 0)).toFixed(2),
+              cartItems: flowers,
+            }
+            : { cartValue: 0, cartItems:[] }
           res.render('checkout', data)
         })
       })
 
       router.get('/add/:id', (req, res, next) => {
-        console.log('add cart', req['cart'])
         getFlowersById([req.params['id']], (err, flowers) => {
           if (err) return res.sendStatus(500)
           req['cart'].items.push(flowers[0]._id)
@@ -98,7 +93,7 @@ export default function Router() {
         })
       })
 
-      app.use('/cart/', router);
+      app.use('/cart/', router)
     }
   }
 }
